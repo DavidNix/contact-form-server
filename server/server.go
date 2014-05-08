@@ -9,7 +9,7 @@ import (
 
 func main() {
 	http.HandleFunc("/email", email)
-	log.Println("Server running...")
+	log.Println("Contact form server running...")
 	http.ListenAndServe(":8889", nil)
 }
 
