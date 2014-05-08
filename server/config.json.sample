@@ -1,0 +1,7 @@
+{
+	"SmtpUsername": "myusername",
+	"SmtpPassword": "mypassword",
+	"ApprovedHosts": ["http://example.com", "http://anotherexample.com"],
+	"FromAddress": "no-reply@example.com",
+	"ToAddresses": ["recipient@example.com"]
+}
