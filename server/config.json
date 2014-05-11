@@ -1,7 +1,6 @@
 {
 	"SmtpUsername": "AKIAJZZDDB62HUT5U7HQ",
 	"SmtpPassword": "AtS9lBO8dfnqjAsc1jput9Ga2zOVYWpwctnRRMHt6wFy", 
-	"ApprovedHosts": ["sheenaanddavid.com", "davidnix.io", "localhost:8889"],
 	"FromAddress": "no-reply@davidnix.io",
 	"ToAddresses": ["davidnix81@gmail.com"]
 }

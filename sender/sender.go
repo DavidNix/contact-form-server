@@ -3,7 +3,6 @@ package sender
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/smtp"
 	"os"
 	"strings"
@@ -15,11 +14,10 @@ const (
 )
 
 type configuration struct {
-	SmtpUsername  string
-	SmtpPassword  string
-	ApprovedHosts []string
-	FromAddress   string
-	ToAddresses   []string
+	SmtpUsername string
+	SmtpPassword string
+	FromAddress  string
+	ToAddresses  []string
 }
 
 const emailTemplateBody = `From: {{fromEmail}}
@@ -38,6 +36,9 @@ var emailTemplate *template.Template
 func init() {
 	config = &configuration{}
 	file, err := os.Open("../server/config.json")
+	if err != nil {
+		file, err = os.Open("./config.json")
+	}
 	if err != nil {
 		panic(err)
 	}
@@ -62,18 +63,14 @@ type EmailMessage struct {
 	Body    string
 }
 
-// Sends email as long as it matches an originHost
+// Sends smtp email
 func SendEmail(message EmailMessage, originHost string) error {
-	if originHostApproved(originHost) {
-		var body bytes.Buffer
-		err := emailTemplate.Execute(&body, message)
-		if err != nil {
-			return err
-		}
-		return smtpSendEmail(body.Bytes())
-	} else {
-		return fmt.Errorf("SendEmail: Origin host %s is not approved.", originHost)
+	var body bytes.Buffer
+	err := emailTemplate.Execute(&body, message)
+	if err != nil {
+		return err
 	}
+	return smtpSendEmail(body.Bytes())
 }
 
 var smtpSendEmail = func(body []byte) error {
@@ -91,13 +88,4 @@ var smtpSendEmail = func(body []byte) error {
 		config.ToAddresses,
 		body,
 	)
-}
-
-func originHostApproved(host string) bool {
-	for _, value := range config.ApprovedHosts {
-		if value == host {
-			return true
-		}
-	}
-	return false
 }

@@ -6,7 +6,6 @@ import (
 )
 
 func TestSendEmailThatIsSuccessful(t *testing.T) {
-	config = &configuration{ApprovedHosts: []string{"http://test-example.com"}}
 	smtpSendEmail = func(body []byte) error { return nil }
 	err := SendEmail(EmailMessage{}, "http://test-example.com")
 	if err != nil {
@@ -15,7 +14,6 @@ func TestSendEmailThatIsSuccessful(t *testing.T) {
 }
 
 func TestSendEmailThatIsUnsuccessful(t *testing.T) {
-	config = &configuration{ApprovedHosts: []string{"http://test-example.com"}}
 	smtpSendEmail = func(body []byte) error { return errors.New("Some error") }
 	err := SendEmail(EmailMessage{}, "http://test-example.com")
 	if err == nil {
@@ -23,19 +21,10 @@ func TestSendEmailThatIsUnsuccessful(t *testing.T) {
 	}
 }
 
-func TestSendEmailToUnapprovedOriginHost(t *testing.T) {
-	err := SendEmail(EmailMessage{}, "http://notgood.com")
-	expected := "SendEmail: Origin host http://notgood.com is not approved."
-	if err.Error() != expected {
-		t.Error("Expected error ", expected, " but got ", err)
-	}
-}
-
 func TestSendEmailWithProperlyFormattedBody(t *testing.T) {
 	config = &configuration{
-		FromAddress:   "from@example.com",
-		ToAddresses:   []string{"to@example.com"},
-		ApprovedHosts: []string{"http://test-example.com"},
+		FromAddress: "from@example.com",
+		ToAddresses: []string{"to@example.com"},
 	}
 	var capturedBody []byte
 	smtpSendEmail = func(body []byte) error {
