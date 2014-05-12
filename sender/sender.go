@@ -23,7 +23,9 @@ type configuration struct {
 const emailTemplateBody = `From: {{fromEmail}}
 To: {{toEmail}}
 Subject: {{.Subject}}
-Body: {{.Name}} sent a message.
+Body:
+
+{{.Name}} sent a message:
 
 {{.Body}}
 

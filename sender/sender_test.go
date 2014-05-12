@@ -32,7 +32,7 @@ func TestSendEmailWithProperlyFormattedBody(t *testing.T) {
 		return nil
 	}
 	SendEmail(EmailMessage{"Jerry", "I am subject.", "Hello!"}, "http://test-example.com")
-	expected := "From: from@example.com\nTo: to@example.com\nSubject: I am subject.\nBody: Jerry sent a message.\n\nHello!\n\nYours truly,\nMr. Contact Form Robot"
+	expected := "From: from@example.com\nTo: to@example.com\nSubject: I am subject.\nBody:\n\nJerry sent a message:\n\nHello!\n\nYours truly,\nMr. Contact Form Robot"
 	if string(capturedBody) != expected {
 		t.Error("Expected ", expected, " but got ", string(capturedBody))
 	}
