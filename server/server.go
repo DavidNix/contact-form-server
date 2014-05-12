@@ -14,6 +14,8 @@ func main() {
 }
 
 func email(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	decoder := json.NewDecoder(r.Body)
 	msg := sender.EmailMessage{}
 	err := decoder.Decode(&msg)
